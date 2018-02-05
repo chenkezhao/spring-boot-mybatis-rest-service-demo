@@ -23,3 +23,10 @@ http://localhost:8081/category/queryForManage?page=2&rows=1
 得到结果：
 
 {"list":[{"id":2,"parentid":0,"name":"name2","code":"code2","remark":"p"}],"pagination":{"total":2,"current":2,"pageSize":2}}
+
+## 代码生成模板，批量生成枯燥重复的代码
+连接数据库 - 指定数据字典 - 根据模板生成提前预订好的逻辑代码！
+
+详情查看doc/Code-Generator
+
+更多详情 http://blog.csdn.net/u013474104/article/details/78547017
