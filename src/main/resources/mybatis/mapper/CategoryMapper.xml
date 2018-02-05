@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.CategoryDao">
+
+    <resultMap id="Category" type="com.chenkezhao.clientinf.entity.Category">
+        <result property="id" column="id"/>
+        <result property="parentid" column="parentid"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 插入一条角色记录 -->
+    <insert id="insert" parameterType="Category">
+        INSERT INTO T_FT_CATEGORY (
+        parentid ,
+        name ,
+        code ,
+        remark
+        ) VALUES (
+        #{parentid} ,
+        #{name} ,
+        #{code} ,
+        #{remark}
+        )
+    </insert>
+
+    <!-- 根据主键更新菜单 -->
+    <update id="update" parameterType="Category">
+        UPDATE T_FT_CATEGORY SET
+        parentid = #{parentid} ,
+        name = #{name,jdbcType=VARCHAR} ,
+        code = #{code,jdbcType=VARCHAR} ,
+        remark = #{remark,jdbcType=VARCHAR}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 删除  -->
+    <delete id="delete">
+        DELETE FROM T_FT_CATEGORY WHERE
+        id = #{id}
+    </delete>
+
+    <!-- T_FT_CATEGORY -->
+    <select id="queryCategoryPageList" parameterType="hashmap" resultType="Category">
+        select *
+        from T_FT_CATEGORY
+        <include refid="queryCategoryForManage_where" />
+    </select>
+
+    <!--根据id查询-->
+    <select id="getById" parameterType="String" resultType="Category">
+        SELECT * FROM T_FT_CATEGORY
+        WHERE
+        id = #{id}
+
+    </select>
+
+
+    <!-- T_FT_CATEGORY列表-查询条件 -->
+    <sql id="queryCategoryForManage_where">
+        <!-- 和 where 元素等价 -->
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="parentid != null">
+                AND parentid = #{parentid}
+            </if>
+            <if test="name != null">
+                AND name = #{name}
+            </if>
+            <if test="code != null">
+                AND code = #{code}
+            </if>
+        </trim>
+    </sql>
+</mapper>
+

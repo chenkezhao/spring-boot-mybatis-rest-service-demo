@@ -27,8 +27,22 @@
         <package name="com.chenkezhao.mobile.mpinf.entity"/>
         <package name="com.chenkezhao.test"/>
     </typeAliases>
+    <plugins>
+        <!--
+        分页插件 https://www.cnblogs.com/EasonJim/p/7056270.html
+        注意：这个插件定义了一个规则，也就是在mapper中SQL语句的id必须包含ListPage才能被拦截。否则将不会分页处理。
+         -->
+        <plugin interceptor="com.chenkezhao.framework.mybatis.PagePlugin">
+            <property name="dialect" value="mysql" />
+            <property name="pageSqlId" value=".*PageList.*" />
+        </plugin>
+    </plugins>
     <mappers>
         <!-- Register all interfaces in a package as mappers -->
-        <package name="mybatis/mapper"/>
+        <!--
+        <package name="mybatis.mapper"/>
+        在application.properties里配置mybatis.mapperLocations
+        -->
+        <!--<mapper resource="mybatis/mapper/CategoryMapper.xml"/>-->
     </mappers>
 </configuration>
