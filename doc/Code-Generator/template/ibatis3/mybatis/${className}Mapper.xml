@@ -1,0 +1,85 @@
+<#include "/macro.include"/>
+<#assign className = table.className>
+<#assign classNameFirstLower = table.classNameFirstLower>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
+<#macro namespace>${className}.</#macro>
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="${basepackage}.dao.${className}Dao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="${classNameFirstLower}ResultMap" type="${basepackage}.entity.${className}">
+	<#list table.columns as column>
+        <result property="${column.columnNameLower}" column="${column.sqlName}"/>
+	</#list>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="${classNameFirstLower}">
+		INSERT INTO ${table.sqlName} (
+		<#list table.notPkColumns as column>
+        	${column.sqlName} <#if column_has_next>,</#if>
+        </#list>
+		) VALUES (
+		<#list table.notPkColumns as column>
+        	<@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
+        </#list>
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="${classNameFirstLower}">
+		 UPDATE ${table.sqlName} SET
+	        <#list table.notPkColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
+	        </#list>
+        WHERE
+        	<#list table.compositeIdColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+	        </#list>
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM ${table.sqlName} WHERE
+        <#list table.compositeIdColumns as column>
+        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+		</#list>
+    </delete>
+
+	<!-- ${table.sqlName}列表-查询条件 -->
+	<sql id="query${className}ForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<#list table.columns as column>
+			<if test="@Ognl@isNotEmpty(${column.columnNameFirstLower})">
+			AND ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+			</if>
+			</#list>
+		</trim>
+	</sql>
+
+	<!-- ${table.sqlName}列表 -->
+	<select id="query${className}PageList" parameterType="hashmap" resultType="${classNameFirstLower}">
+	   select *
+		  from ${table.sqlName}
+		<include refid="query${className}ForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="${classNameFirstLower}">
+		SELECT * FROM ${table.sqlName}
+	        WHERE
+				<#list table.compositeIdColumns as column>
+		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+		        </#list>
+
+	</select>
+
+</mapper>
