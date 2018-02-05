@@ -25,7 +25,7 @@ public interface CategoryDao {
      * 删除
      * @param id
      */
-    void delete(long id);
+    void delete(String id);
 
     void deleteByWorkPkid(String wkpkid);
 

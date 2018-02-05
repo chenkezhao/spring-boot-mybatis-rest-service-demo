@@ -55,7 +55,7 @@ public class CategoryService {
      * @param id
      */
     @Transactional(readOnly = false)
-    public void delete(long id) {
+    public void delete(String id) {
         categoryDao.delete(id);
     }
 

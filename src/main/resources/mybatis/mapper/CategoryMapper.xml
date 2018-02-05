@@ -47,7 +47,7 @@
     </delete>
 
     <!-- T_FT_CATEGORY -->
-    <select id="queryCategoryPageList" parameterType="hashmap" resultType="Category">
+    <select id="queryCategoryPageList" parameterType="hashmap" resultType="category">
         select *
         from T_FT_CATEGORY
         <include refid="queryCategoryForManage_where" />

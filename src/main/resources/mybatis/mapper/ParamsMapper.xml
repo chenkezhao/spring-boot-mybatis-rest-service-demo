@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.ParamsDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="paramsResultMap" type="com.chenkezhao.clientinf.entity.Params">
+        <result property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="pkey" column="PKEY"/>
+        <result property="pvalue" column="PVALUE"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="params">
+		INSERT INTO T_FT_PARAMS (
+        	NAME ,
+        	PKEY ,
+        	PVALUE ,
+        	REMARK 
+		) VALUES (
+        	#{name} ,
+        	#{pkey} ,
+        	#{pvalue} ,
+        	#{remark} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="params">
+		 UPDATE T_FT_PARAMS SET
+	        NAME = #{name} ,
+	        PKEY = #{pkey} ,
+	        PVALUE = #{pvalue} ,
+	        REMARK = #{remark} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_PARAMS WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_PARAMS列表-查询条件 -->
+	<sql id="queryParamsForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+			AND NAME = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(pkey)">
+			AND PKEY = #{pkey}
+			</if>
+			<if test="@Ognl@isNotEmpty(pvalue)">
+			AND PVALUE = #{pvalue}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_PARAMS列表 -->
+	<select id="queryParamsPageList" parameterType="hashmap" resultType="params">
+	   select *
+		  from T_FT_PARAMS
+		<include refid="queryParamsForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="params">
+		SELECT * FROM T_FT_PARAMS
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

@@ -7,8 +7,10 @@ import com.chenkezhao.framework.Servlets;
 import com.chenkezhao.framework.mybatis.PageInfo;
 import com.chenkezhao.framework.mybatis.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +39,7 @@ public class CategoryController {
                                HttpServletResponse response) {
         JsonResponse jsonResponse = new JsonResponse(true, null, null);
         try {
-            categoryService.delete(id);
+            categoryService.delete(id+"");
         } catch (Exception e) {
             e.printStackTrace();
             jsonResponse.setSuccess(false);
@@ -60,7 +62,7 @@ public class CategoryController {
         JsonResponse jsonResponse = new JsonResponse(true, null, null);
         try {
 
-            if (StringUtils.isEmpty(category.getId())) {
+            if (category.getId() == 0) {
                 category = categoryService.insert(category);
             } else {
                 Category oldCategory = categoryService.getById(category.getId());
@@ -99,6 +101,11 @@ public class CategoryController {
     }
 
 
+    /**
+     * 查询对象实体
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "queryById")
     @ResponseBody
     public Category queryById(long id) {

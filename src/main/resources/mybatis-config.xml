@@ -22,6 +22,37 @@
     </settings>
     <typeAliases>
         <!--指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean-->
+        <!--
+            作用：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+            <select id="selectUsers" resultType="com.someapp.model.User">
+            要记住类型别名是你的伙伴。使用它们你可以不用输入类的全路径。比如:
+
+            In mybatis-config.xml file
+            <typeAlias type="com.someapp.model.User" alias="User"/>
+
+            In SQL Mapping XML file
+            <select id="selectUsers" resultType="User">
+                select id, username, hashedPassword
+                from some_table
+                where id = #{id}
+            </select>
+        -->
+        <!--
+        http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+        默认：
+        在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。比如 com.chenkezhao.clientinf.entity.Test 的别名为 test
+
+        @Alias("author")
+        public class Author {
+            ...
+        }
+
+        经过试验，发现别名对首字母大小写并不敏感，但还是按要求来符合些
+
+        其它：
+        已经为许多常见的 Java 类型内建了相应的类型别名。它们都是大小写不敏感的，需要注意的是由基本类型名称重复导致的特殊处理。
+        具体看链接
+        -->
         <package name="com.chenkezhao.clientinf.entity"/>
         <package name="com.chenkezhao.mobile.androidinf.entity"/>
         <package name="com.chenkezhao.mobile.mpinf.entity"/>
