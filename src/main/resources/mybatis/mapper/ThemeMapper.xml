@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.ThemeDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="themeResultMap" type="com.chenkezhao.clientinf.entity.Theme">
+        <result property="id" column="ID"/>
+        <result property="parentid" column="PARENTID"/>
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="coverurl" column="COVERURL"/>
+        <result property="status" column="STATUS"/>
+        <result property="seqno" column="SEQNO"/>
+        <result property="creater" column="CREATER"/>
+        <result property="creatername" column="CREATERNAME"/>
+        <result property="creatertime" column="CREATERTIME"/>
+        <result property="modify" column="MODIFY"/>
+        <result property="modifyname" column="MODIFYNAME"/>
+        <result property="modifytime" column="MODIFYTIME"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="theme">
+		INSERT INTO T_FT_THEME (
+        	PARENTID ,
+        	NAME ,
+        	DESCRIPTION ,
+        	COVERURL ,
+        	STATUS ,
+        	SEQNO ,
+        	CREATER ,
+        	CREATERNAME ,
+        	CREATERTIME ,
+        	MODIFY ,
+        	MODIFYNAME ,
+        	MODIFYTIME ,
+        	REMARK 
+		) VALUES (
+        	#{parentid} ,
+        	#{name} ,
+        	#{description} ,
+        	#{coverurl} ,
+        	#{status} ,
+        	#{seqno} ,
+        	#{creater} ,
+        	#{creatername} ,
+        	#{creatertime} ,
+        	#{modify} ,
+        	#{modifyname} ,
+        	#{modifytime} ,
+        	#{remark} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="theme">
+		 UPDATE T_FT_THEME SET
+	        PARENTID = #{parentid} ,
+	        NAME = #{name} ,
+	        DESCRIPTION = #{description} ,
+	        COVERURL = #{coverurl} ,
+	        STATUS = #{status} ,
+	        SEQNO = #{seqno} ,
+	        CREATER = #{creater} ,
+	        CREATERNAME = #{creatername} ,
+	        CREATERTIME = #{creatertime} ,
+	        MODIFY = #{modify} ,
+	        MODIFYNAME = #{modifyname} ,
+	        MODIFYTIME = #{modifytime} ,
+	        REMARK = #{remark} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_THEME WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_THEME列表-查询条件 -->
+	<sql id="queryThemeForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(parentid)">
+			AND PARENTID = #{parentid}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+			AND NAME = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(description)">
+			AND DESCRIPTION = #{description}
+			</if>
+			<if test="@Ognl@isNotEmpty(coverurl)">
+			AND COVERURL = #{coverurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(status)">
+			AND STATUS = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(seqno)">
+			AND SEQNO = #{seqno}
+			</if>
+			<if test="@Ognl@isNotEmpty(creater)">
+			AND CREATER = #{creater}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatername)">
+			AND CREATERNAME = #{creatername}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatertime)">
+			AND CREATERTIME = #{creatertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(modify)">
+			AND MODIFY = #{modify}
+			</if>
+			<if test="@Ognl@isNotEmpty(modifyname)">
+			AND MODIFYNAME = #{modifyname}
+			</if>
+			<if test="@Ognl@isNotEmpty(modifytime)">
+			AND MODIFYTIME = #{modifytime}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_THEME列表 -->
+	<select id="queryThemePageList" parameterType="hashmap" resultType="theme">
+	   select *
+		  from T_FT_THEME
+		<include refid="queryThemeForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="theme">
+		SELECT * FROM T_FT_THEME
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

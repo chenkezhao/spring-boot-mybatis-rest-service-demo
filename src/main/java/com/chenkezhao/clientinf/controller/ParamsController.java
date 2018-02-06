@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +34,7 @@ import com.chenkezhao.clientinf.service.ParamsService;
 @RestController
 @RequestMapping(value = "/clientinf/params")
 public class ParamsController {
-	
+
 	@Autowired
 	private ParamsService paramsService;
 
@@ -64,7 +65,7 @@ public class ParamsController {
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse delete(String id, HttpServletRequest request,
+	public JsonResponse delete(int id, HttpServletRequest request,
 														 HttpServletResponse response) {
 		JsonResponse jsonResponse = new JsonResponse(true, null, null);
 		try {
@@ -91,10 +92,10 @@ public class ParamsController {
 		JsonResponse jsonResponse = new JsonResponse(true, null, null);
 		try {
 
-			if (params.getId() == 0 ) {
+			if (StringUtils.isEmpty(params.getId()) ) {
 				params = paramsService.insert(params);
 			} else {
-				Params oldParams = paramsService.getById(params.getId()+"");
+				Params oldParams = paramsService.getById(params.getId());
 				oldParams.setId(params.getId());
 				oldParams.setName(params.getName());
 				oldParams.setPkey(params.getPkey());
@@ -118,7 +119,7 @@ public class ParamsController {
 	 */
 	@RequestMapping(value = "queryById")
 	@ResponseBody
-	public Params queryById(String id) {
+	public Params queryById(int id) {
 			return paramsService.getById(id);
 	}
 

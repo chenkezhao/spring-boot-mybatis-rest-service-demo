@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,11 +63,11 @@ public class ${className}Controller {
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse delete(String id, HttpServletRequest request,
+	public JsonResponse delete(int id, HttpServletRequest request,
 														 HttpServletResponse response) {
 		JsonResponse jsonResponse = new JsonResponse(true, null, null);
 		try {
-			${classNameLower}Service.delete(id + "");
+			${classNameLower}Service.delete(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonResponse.setSuccess(false);
@@ -89,10 +90,10 @@ public class ${className}Controller {
 		JsonResponse jsonResponse = new JsonResponse(true, null, null);
 		try {
 
-			if (${classNameLower}.get${table.pkColumn.columnName}() == 0 ) {
+			if (StringUtils.isEmpty(${classNameLower}.get${table.pkColumn.columnName}()) ) {
 				${classNameLower} = ${classNameLower}Service.insert(${classNameLower});
 			} else {
-				${className} old${className} = ${classNameLower}Service.getBy${table.pkColumn.columnName}(${classNameLower}.get${table.pkColumn.columnName}() + "");
+				${className} old${className} = ${classNameLower}Service.getBy${table.pkColumn.columnName}(${classNameLower}.get${table.pkColumn.columnName}());
 				<#list table.columns as column>
 				old${className}.set${column.columnName}(${classNameLower}.get${column.columnName}());
 				</#list>
@@ -114,7 +115,7 @@ public class ${className}Controller {
 	 */
 	@RequestMapping(value = "queryById")
 	@ResponseBody
-	public ${className} queryById(String id) {
+	public ${className} queryById(int id) {
 			return ${classNameLower}Service.getById(id);
 	}
 

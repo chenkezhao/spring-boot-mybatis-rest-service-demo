@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.OrderSnapshotDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="orderSnapshotResultMap" type="com.chenkezhao.clientinf.entity.OrderSnapshot">
+        <result property="id" column="ID"/>
+        <result property="themeid" column="THEMEID"/>
+        <result property="themecoverurl" column="THEMECOVERURL"/>
+        <result property="themename" column="THEMENAME"/>
+        <result property="setmealid" column="SETMEALID"/>
+        <result property="setmealcoverurl" column="SETMEALCOVERURL"/>
+        <result property="setmealname" column="SETMEALNAME"/>
+        <result property="setmealdesc" column="SETMEALDESC"/>
+        <result property="setmealoldprice" column="SETMEALOLDPRICE"/>
+        <result property="setmealprice" column="SETMEALPRICE"/>
+        <result property="fruitid" column="FRUITID"/>
+        <result property="name" column="NAME"/>
+        <result property="coverurl" column="COVERURL"/>
+        <result property="title" column="TITLE"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="oldprice" column="OLDPRICE"/>
+        <result property="price" column="PRICE"/>
+        <result property="count" column="COUNT"/>
+        <result property="remark" column="REMARK"/>
+        <result property="extend1" column="EXTEND1"/>
+        <result property="extend2" column="EXTEND2"/>
+        <result property="extend3" column="EXTEND3"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="orderSnapshot">
+		INSERT INTO T_FT_ORDER_SNAPSHOT (
+        	THEMEID ,
+        	THEMECOVERURL ,
+        	THEMENAME ,
+        	SETMEALID ,
+        	SETMEALCOVERURL ,
+        	SETMEALNAME ,
+        	SETMEALDESC ,
+        	SETMEALOLDPRICE ,
+        	SETMEALPRICE ,
+        	FRUITID ,
+        	NAME ,
+        	COVERURL ,
+        	TITLE ,
+        	DESCRIPTION ,
+        	OLDPRICE ,
+        	PRICE ,
+        	COUNT ,
+        	REMARK ,
+        	EXTEND1 ,
+        	EXTEND2 ,
+        	EXTEND3 
+		) VALUES (
+        	#{themeid} ,
+        	#{themecoverurl} ,
+        	#{themename} ,
+        	#{setmealid} ,
+        	#{setmealcoverurl} ,
+        	#{setmealname} ,
+        	#{setmealdesc} ,
+        	#{setmealoldprice} ,
+        	#{setmealprice} ,
+        	#{fruitid} ,
+        	#{name} ,
+        	#{coverurl} ,
+        	#{title} ,
+        	#{description} ,
+        	#{oldprice} ,
+        	#{price} ,
+        	#{count} ,
+        	#{remark} ,
+        	#{extend1} ,
+        	#{extend2} ,
+        	#{extend3} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="orderSnapshot">
+		 UPDATE T_FT_ORDER_SNAPSHOT SET
+	        THEMEID = #{themeid} ,
+	        THEMECOVERURL = #{themecoverurl} ,
+	        THEMENAME = #{themename} ,
+	        SETMEALID = #{setmealid} ,
+	        SETMEALCOVERURL = #{setmealcoverurl} ,
+	        SETMEALNAME = #{setmealname} ,
+	        SETMEALDESC = #{setmealdesc} ,
+	        SETMEALOLDPRICE = #{setmealoldprice} ,
+	        SETMEALPRICE = #{setmealprice} ,
+	        FRUITID = #{fruitid} ,
+	        NAME = #{name} ,
+	        COVERURL = #{coverurl} ,
+	        TITLE = #{title} ,
+	        DESCRIPTION = #{description} ,
+	        OLDPRICE = #{oldprice} ,
+	        PRICE = #{price} ,
+	        COUNT = #{count} ,
+	        REMARK = #{remark} ,
+	        EXTEND1 = #{extend1} ,
+	        EXTEND2 = #{extend2} ,
+	        EXTEND3 = #{extend3} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_ORDER_SNAPSHOT WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_ORDER_SNAPSHOT列表-查询条件 -->
+	<sql id="queryOrderSnapshotForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(themeid)">
+			AND THEMEID = #{themeid}
+			</if>
+			<if test="@Ognl@isNotEmpty(themecoverurl)">
+			AND THEMECOVERURL = #{themecoverurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(themename)">
+			AND THEMENAME = #{themename}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealid)">
+			AND SETMEALID = #{setmealid}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealcoverurl)">
+			AND SETMEALCOVERURL = #{setmealcoverurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealname)">
+			AND SETMEALNAME = #{setmealname}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealdesc)">
+			AND SETMEALDESC = #{setmealdesc}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealoldprice)">
+			AND SETMEALOLDPRICE = #{setmealoldprice}
+			</if>
+			<if test="@Ognl@isNotEmpty(setmealprice)">
+			AND SETMEALPRICE = #{setmealprice}
+			</if>
+			<if test="@Ognl@isNotEmpty(fruitid)">
+			AND FRUITID = #{fruitid}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+			AND NAME = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(coverurl)">
+			AND COVERURL = #{coverurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(title)">
+			AND TITLE = #{title}
+			</if>
+			<if test="@Ognl@isNotEmpty(description)">
+			AND DESCRIPTION = #{description}
+			</if>
+			<if test="@Ognl@isNotEmpty(oldprice)">
+			AND OLDPRICE = #{oldprice}
+			</if>
+			<if test="@Ognl@isNotEmpty(price)">
+			AND PRICE = #{price}
+			</if>
+			<if test="@Ognl@isNotEmpty(count)">
+			AND COUNT = #{count}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend1)">
+			AND EXTEND1 = #{extend1}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend2)">
+			AND EXTEND2 = #{extend2}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend3)">
+			AND EXTEND3 = #{extend3}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_ORDER_SNAPSHOT列表 -->
+	<select id="queryOrderSnapshotPageList" parameterType="hashmap" resultType="orderSnapshot">
+	   select *
+		  from T_FT_ORDER_SNAPSHOT
+		<include refid="queryOrderSnapshotForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="orderSnapshot">
+		SELECT * FROM T_FT_ORDER_SNAPSHOT
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

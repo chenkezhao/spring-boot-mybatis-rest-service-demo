@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.NoticeDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="noticeResultMap" type="com.chenkezhao.clientinf.entity.Notice">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="coverurl" column="COVERURL"/>
+        <result property="status" column="STATUS"/>
+        <result property="seqno" column="SEQNO"/>
+        <result property="releasetime" column="RELEASETIME"/>
+        <result property="openuserid" column="OPENUSERID"/>
+        <result property="creater" column="CREATER"/>
+        <result property="creatername" column="CREATERNAME"/>
+        <result property="creatertime" column="CREATERTIME"/>
+        <result property="modify" column="MODIFY"/>
+        <result property="modifyname" column="MODIFYNAME"/>
+        <result property="modifytime" column="MODIFYTIME"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="notice">
+		INSERT INTO T_FT_NOTICE (
+        	TITLE ,
+        	CONTENT ,
+        	COVERURL ,
+        	STATUS ,
+        	SEQNO ,
+        	RELEASETIME ,
+        	OPENUSERID ,
+        	CREATER ,
+        	CREATERNAME ,
+        	CREATERTIME ,
+        	MODIFY ,
+        	MODIFYNAME ,
+        	MODIFYTIME ,
+        	REMARK 
+		) VALUES (
+        	#{title} ,
+        	#{content} ,
+        	#{coverurl} ,
+        	#{status} ,
+        	#{seqno} ,
+        	#{releasetime} ,
+        	#{openuserid} ,
+        	#{creater} ,
+        	#{creatername} ,
+        	#{creatertime} ,
+        	#{modify} ,
+        	#{modifyname} ,
+        	#{modifytime} ,
+        	#{remark} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="notice">
+		 UPDATE T_FT_NOTICE SET
+	        TITLE = #{title} ,
+	        CONTENT = #{content} ,
+	        COVERURL = #{coverurl} ,
+	        STATUS = #{status} ,
+	        SEQNO = #{seqno} ,
+	        RELEASETIME = #{releasetime} ,
+	        OPENUSERID = #{openuserid} ,
+	        CREATER = #{creater} ,
+	        CREATERNAME = #{creatername} ,
+	        CREATERTIME = #{creatertime} ,
+	        MODIFY = #{modify} ,
+	        MODIFYNAME = #{modifyname} ,
+	        MODIFYTIME = #{modifytime} ,
+	        REMARK = #{remark} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_NOTICE WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_NOTICE列表-查询条件 -->
+	<sql id="queryNoticeForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(title)">
+			AND TITLE = #{title}
+			</if>
+			<if test="@Ognl@isNotEmpty(content)">
+			AND CONTENT = #{content}
+			</if>
+			<if test="@Ognl@isNotEmpty(coverurl)">
+			AND COVERURL = #{coverurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(status)">
+			AND STATUS = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(seqno)">
+			AND SEQNO = #{seqno}
+			</if>
+			<if test="@Ognl@isNotEmpty(releasetime)">
+			AND RELEASETIME = #{releasetime}
+			</if>
+			<if test="@Ognl@isNotEmpty(openuserid)">
+			AND OPENUSERID = #{openuserid}
+			</if>
+			<if test="@Ognl@isNotEmpty(creater)">
+			AND CREATER = #{creater}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatername)">
+			AND CREATERNAME = #{creatername}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatertime)">
+			AND CREATERTIME = #{creatertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(modify)">
+			AND MODIFY = #{modify}
+			</if>
+			<if test="@Ognl@isNotEmpty(modifyname)">
+			AND MODIFYNAME = #{modifyname}
+			</if>
+			<if test="@Ognl@isNotEmpty(modifytime)">
+			AND MODIFYTIME = #{modifytime}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_NOTICE列表 -->
+	<select id="queryNoticePageList" parameterType="hashmap" resultType="notice">
+	   select *
+		  from T_FT_NOTICE
+		<include refid="queryNoticeForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="notice">
+		SELECT * FROM T_FT_NOTICE
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

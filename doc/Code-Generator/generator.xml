@@ -19,7 +19,7 @@
 	<entry key="tableRemovePrefixes">T_FT</entry>
 
 	<entry key="jdbc.username">test</entry>
-	<entry key="jdbc.password">test</entry>
+	<entry key="jdbc.password">123456Test@</entry>
 
 	<!-- oracle��Ҫָ��jdbc.schema,�������ݿ����Դ�������  -->
 	<entry key="jdbc.schema"></entry>

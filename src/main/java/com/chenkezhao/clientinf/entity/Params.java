@@ -1,6 +1,6 @@
 /*
  * Powered By [Chenkezhao]
- * Web Site: http://www.Chenkezhao.com/
+ * Web Site: http://www.chenkezhao.com/
  * Since 2014 - 2018
  */
 package com.chenkezhao.clientinf.entity;
@@ -21,55 +21,55 @@ public class Params extends BaseEntity{
 	public static final String TABLE_ALIAS = "T_FT_PARAMS";
 
 	//columns START
-	private Integer id;
-	private String name;
-	private String pkey;
-	private String pvalue;
-	private String remark;
+	private java.lang.Integer id;
+	private java.lang.String name;
+	private java.lang.String pkey;
+	private java.lang.String pvalue;
+	private java.lang.String remark;
 	//columns END
 
 	public Params(){
 	}
 
 	public Params(
-		Integer id
+		java.lang.Integer id
 	){
 		this.id = id;
 	}
 
-	public void setId(Integer value) {
+	public void setId(java.lang.Integer value) {
 		this.id = value;
 	}
 
-	public Integer getId() {
+	public java.lang.Integer getId() {
 		return this.id;
 	}
-	public void setName(String value) {
+	public void setName(java.lang.String value) {
 		this.name = value;
 	}
 
-	public String getName() {
+	public java.lang.String getName() {
 		return this.name;
 	}
-	public void setPkey(String value) {
+	public void setPkey(java.lang.String value) {
 		this.pkey = value;
 	}
 
-	public String getPkey() {
+	public java.lang.String getPkey() {
 		return this.pkey;
 	}
-	public void setPvalue(String value) {
+	public void setPvalue(java.lang.String value) {
 		this.pvalue = value;
 	}
 
-	public String getPvalue() {
+	public java.lang.String getPvalue() {
 		return this.pvalue;
 	}
-	public void setRemark(String value) {
+	public void setRemark(java.lang.String value) {
 		this.remark = value;
 	}
 
-	public String getRemark() {
+	public java.lang.String getRemark() {
 		return this.remark;
 	}
 

@@ -69,7 +69,7 @@ public class ${className}Service {
 	 * @param ${table.pkColumn.columnNameLower}
 	 */
 	@Transactional(readOnly = false)
-	public void delete(String ${table.pkColumn.columnNameLower}) {
+	public void delete(int ${table.pkColumn.columnNameLower}) {
 		${classNameLower}Dao.delete(${table.pkColumn.columnNameLower});
 	}
 
@@ -78,7 +78,7 @@ public class ${className}Service {
 	 * @param ${table.pkColumn.columnNameLower}
 	 * @return
 	 */
-	public ${className} getBy${table.pkColumn.columnName}(String ${table.pkColumn.columnNameLower}) {
+	public ${className} getBy${table.pkColumn.columnName}(int ${table.pkColumn.columnNameLower}) {
 		${className} ${classNameLower} = ${classNameLower}Dao.getById(${table.pkColumn.columnNameLower});
 		return ${classNameLower};
 	}

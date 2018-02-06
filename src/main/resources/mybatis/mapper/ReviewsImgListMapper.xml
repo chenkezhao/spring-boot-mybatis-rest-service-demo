@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.ReviewsImgListDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="reviewsImgListResultMap" type="com.chenkezhao.clientinf.entity.ReviewsImgList">
+        <result property="id" column="ID"/>
+        <result property="reviewsid" column="REVIEWSID"/>
+        <result property="imgpaths" column="IMGPATHS"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="reviewsImgList">
+		INSERT INTO T_FT_REVIEWS_IMG_LIST (
+        	REVIEWSID ,
+        	IMGPATHS 
+		) VALUES (
+        	#{reviewsid} ,
+        	#{imgpaths} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="reviewsImgList">
+		 UPDATE T_FT_REVIEWS_IMG_LIST SET
+	        REVIEWSID = #{reviewsid} ,
+	        IMGPATHS = #{imgpaths} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_REVIEWS_IMG_LIST WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_REVIEWS_IMG_LIST列表-查询条件 -->
+	<sql id="queryReviewsImgListForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(reviewsid)">
+			AND REVIEWSID = #{reviewsid}
+			</if>
+			<if test="@Ognl@isNotEmpty(imgpaths)">
+			AND IMGPATHS = #{imgpaths}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_REVIEWS_IMG_LIST列表 -->
+	<select id="queryReviewsImgListPageList" parameterType="hashmap" resultType="reviewsImgList">
+	   select *
+		  from T_FT_REVIEWS_IMG_LIST
+		<include refid="queryReviewsImgListForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="reviewsImgList">
+		SELECT * FROM T_FT_REVIEWS_IMG_LIST
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

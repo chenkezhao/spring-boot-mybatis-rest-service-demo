@@ -1,6 +1,6 @@
 /*
  * Powered By [Chenkezhao]
- * Web Site: http://www.Chenkezhao.com/
+ * Web Site: http://www.chenkezhao.com/
  * Since 2014 - 2018
  */
 package com.chenkezhao.clientinf.service;
@@ -71,7 +71,7 @@ public class ParamsService {
 	 * @param id
 	 */
 	@Transactional(readOnly = false)
-	public void delete(String id) {
+	public void delete(int id) {
 		paramsDao.delete(id);
 	}
 
@@ -80,7 +80,7 @@ public class ParamsService {
 	 * @param id
 	 * @return
 	 */
-	public Params getById(String id) {
+	public Params getById(int id) {
 		Params params = paramsDao.getById(id);
 		return params;
 	}

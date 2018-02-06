@@ -6,79 +6,84 @@
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="com.chenkezhao.clientinf.dao.CategoryDao">
 
-    <resultMap id="Category" type="com.chenkezhao.clientinf.entity.Category">
-        <result property="id" column="id"/>
-        <result property="parentid" column="parentid"/>
-        <result property="name" column="name"/>
-        <result property="code" column="code"/>
-        <result property="remark" column="remark"/>
-    </resultMap>
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
 
-    <!-- 插入一条角色记录 -->
-    <insert id="insert" parameterType="Category">
-        INSERT INTO T_FT_CATEGORY (
-        parentid ,
-        name ,
-        code ,
-        remark
-        ) VALUES (
-        #{parentid} ,
-        #{name} ,
-        #{code} ,
-        #{remark}
-        )
-    </insert>
+	<resultMap id="categoryResultMap" type="com.chenkezhao.clientinf.entity.Category">
+        <result property="id" column="ID"/>
+        <result property="parentid" column="PARENTID"/>
+        <result property="name" column="NAME"/>
+        <result property="code" column="CODE"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="category">
+		INSERT INTO T_FT_CATEGORY (
+        	PARENTID ,
+        	NAME ,
+        	CODE ,
+        	REMARK 
+		) VALUES (
+        	#{parentid} ,
+        	#{name} ,
+        	#{code} ,
+        	#{remark} 
+		 )
+	</insert>
 
-    <!-- 根据主键更新菜单 -->
-    <update id="update" parameterType="Category">
-        UPDATE T_FT_CATEGORY SET
-        parentid = #{parentid} ,
-        name = #{name,jdbcType=VARCHAR} ,
-        code = #{code,jdbcType=VARCHAR} ,
-        remark = #{remark,jdbcType=VARCHAR}
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="category">
+		 UPDATE T_FT_CATEGORY SET
+	        PARENTID = #{parentid} ,
+	        NAME = #{name} ,
+	        CODE = #{code} ,
+	        REMARK = #{remark} 
         WHERE
-        id = #{id}
-    </update>
+	        ID = #{id} 
+	</update>
 
-    <!-- 删除  -->
-    <delete id="delete">
-        DELETE FROM T_FT_CATEGORY WHERE
-        id = #{id}
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_CATEGORY WHERE
+        ID = #{id} 
     </delete>
 
-    <!-- T_FT_CATEGORY -->
-    <select id="queryCategoryPageList" parameterType="hashmap" resultType="category">
-        select *
-        from T_FT_CATEGORY
-        <include refid="queryCategoryForManage_where" />
-    </select>
+	<!-- T_FT_CATEGORY列表-查询条件 -->
+	<sql id="queryCategoryForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(parentid)">
+			AND PARENTID = #{parentid}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+			AND NAME = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(code)">
+			AND CODE = #{code}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
 
-    <!--根据id查询-->
-    <select id="getById" parameterType="String" resultType="Category">
-        SELECT * FROM T_FT_CATEGORY
-        WHERE
-        id = #{id}
+	<!-- T_FT_CATEGORY列表 -->
+	<select id="queryCategoryPageList" parameterType="hashmap" resultType="category">
+	   select *
+		  from T_FT_CATEGORY
+		<include refid="queryCategoryForManage_where" />
+	</select>
 
-    </select>
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="category">
+		SELECT * FROM T_FT_CATEGORY
+	        WHERE
+		        ID = #{id} 
 
+	</select>
 
-    <!-- T_FT_CATEGORY列表-查询条件 -->
-    <sql id="queryCategoryForManage_where">
-        <!-- 和 where 元素等价 -->
-        <trim prefix="WHERE" prefixOverrides="AND |OR ">
-            <if test="id != null">
-                AND id = #{id}
-            </if>
-            <if test="parentid != null">
-                AND parentid = #{parentid}
-            </if>
-            <if test="name != null">
-                AND name = #{name}
-            </if>
-            <if test="code != null">
-                AND code = #{code}
-            </if>
-        </trim>
-    </sql>
 </mapper>
-

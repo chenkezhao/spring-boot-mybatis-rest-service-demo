@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.OrderDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="orderResultMap" type="com.chenkezhao.clientinf.entity.Order">
+        <result property="id" column="ID"/>
+        <result property="userid" column="USERID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="orderno" column="ORDERNO"/>
+        <result property="transferaccount" column="TRANSFERACCOUNT"/>
+        <result property="orderstatus" column="ORDERSTATUS"/>
+        <result property="logisticsname" column="LOGISTICSNAME"/>
+        <result property="logisticscode" column="LOGISTICSCODE"/>
+        <result property="useraddressid" column="USERADDRESSID"/>
+        <result property="addressbackup" column="ADDRESSBACKUP"/>
+        <result property="usermsg" column="USERMSG"/>
+        <result property="paymentmethod" column="PAYMENTMETHOD"/>
+        <result property="ordertime" column="ORDERTIME"/>
+        <result property="finishordertime" column="FINISHORDERTIME"/>
+        <result property="deliverytime" column="DELIVERYTIME"/>
+        <result property="deliverydistance" column="DELIVERYDISTANCE"/>
+        <result property="distributionmodecode" column="DISTRIBUTIONMODECODE"/>
+        <result property="count" column="COUNT"/>
+        <result property="totalprice" column="TOTALPRICE"/>
+        <result property="freight" column="FREIGHT"/>
+        <result property="remark" column="REMARK"/>
+        <result property="extend1" column="EXTEND1"/>
+        <result property="extend2" column="EXTEND2"/>
+        <result property="extend3" column="EXTEND3"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="order">
+		INSERT INTO T_FT_ORDER (
+        	USERID ,
+        	USERNAME ,
+        	ORDERNO ,
+        	TRANSFERACCOUNT ,
+        	ORDERSTATUS ,
+        	LOGISTICSNAME ,
+        	LOGISTICSCODE ,
+        	USERADDRESSID ,
+        	ADDRESSBACKUP ,
+        	USERMSG ,
+        	PAYMENTMETHOD ,
+        	ORDERTIME ,
+        	FINISHORDERTIME ,
+        	DELIVERYTIME ,
+        	DELIVERYDISTANCE ,
+        	DISTRIBUTIONMODECODE ,
+        	COUNT ,
+        	TOTALPRICE ,
+        	FREIGHT ,
+        	REMARK ,
+        	EXTEND1 ,
+        	EXTEND2 ,
+        	EXTEND3 
+		) VALUES (
+        	#{userid} ,
+        	#{username} ,
+        	#{orderno} ,
+        	#{transferaccount} ,
+        	#{orderstatus} ,
+        	#{logisticsname} ,
+        	#{logisticscode} ,
+        	#{useraddressid} ,
+        	#{addressbackup} ,
+        	#{usermsg} ,
+        	#{paymentmethod} ,
+        	#{ordertime} ,
+        	#{finishordertime} ,
+        	#{deliverytime} ,
+        	#{deliverydistance} ,
+        	#{distributionmodecode} ,
+        	#{count} ,
+        	#{totalprice} ,
+        	#{freight} ,
+        	#{remark} ,
+        	#{extend1} ,
+        	#{extend2} ,
+        	#{extend3} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="order">
+		 UPDATE T_FT_ORDER SET
+	        USERID = #{userid} ,
+	        USERNAME = #{username} ,
+	        ORDERNO = #{orderno} ,
+	        TRANSFERACCOUNT = #{transferaccount} ,
+	        ORDERSTATUS = #{orderstatus} ,
+	        LOGISTICSNAME = #{logisticsname} ,
+	        LOGISTICSCODE = #{logisticscode} ,
+	        USERADDRESSID = #{useraddressid} ,
+	        ADDRESSBACKUP = #{addressbackup} ,
+	        USERMSG = #{usermsg} ,
+	        PAYMENTMETHOD = #{paymentmethod} ,
+	        ORDERTIME = #{ordertime} ,
+	        FINISHORDERTIME = #{finishordertime} ,
+	        DELIVERYTIME = #{deliverytime} ,
+	        DELIVERYDISTANCE = #{deliverydistance} ,
+	        DISTRIBUTIONMODECODE = #{distributionmodecode} ,
+	        COUNT = #{count} ,
+	        TOTALPRICE = #{totalprice} ,
+	        FREIGHT = #{freight} ,
+	        REMARK = #{remark} ,
+	        EXTEND1 = #{extend1} ,
+	        EXTEND2 = #{extend2} ,
+	        EXTEND3 = #{extend3} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_ORDER WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_ORDER列表-查询条件 -->
+	<sql id="queryOrderForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(userid)">
+			AND USERID = #{userid}
+			</if>
+			<if test="@Ognl@isNotEmpty(username)">
+			AND USERNAME = #{username}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderno)">
+			AND ORDERNO = #{orderno}
+			</if>
+			<if test="@Ognl@isNotEmpty(transferaccount)">
+			AND TRANSFERACCOUNT = #{transferaccount}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderstatus)">
+			AND ORDERSTATUS = #{orderstatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(logisticsname)">
+			AND LOGISTICSNAME = #{logisticsname}
+			</if>
+			<if test="@Ognl@isNotEmpty(logisticscode)">
+			AND LOGISTICSCODE = #{logisticscode}
+			</if>
+			<if test="@Ognl@isNotEmpty(useraddressid)">
+			AND USERADDRESSID = #{useraddressid}
+			</if>
+			<if test="@Ognl@isNotEmpty(addressbackup)">
+			AND ADDRESSBACKUP = #{addressbackup}
+			</if>
+			<if test="@Ognl@isNotEmpty(usermsg)">
+			AND USERMSG = #{usermsg}
+			</if>
+			<if test="@Ognl@isNotEmpty(paymentmethod)">
+			AND PAYMENTMETHOD = #{paymentmethod}
+			</if>
+			<if test="@Ognl@isNotEmpty(ordertime)">
+			AND ORDERTIME = #{ordertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(finishordertime)">
+			AND FINISHORDERTIME = #{finishordertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(deliverytime)">
+			AND DELIVERYTIME = #{deliverytime}
+			</if>
+			<if test="@Ognl@isNotEmpty(deliverydistance)">
+			AND DELIVERYDISTANCE = #{deliverydistance}
+			</if>
+			<if test="@Ognl@isNotEmpty(distributionmodecode)">
+			AND DISTRIBUTIONMODECODE = #{distributionmodecode}
+			</if>
+			<if test="@Ognl@isNotEmpty(count)">
+			AND COUNT = #{count}
+			</if>
+			<if test="@Ognl@isNotEmpty(totalprice)">
+			AND TOTALPRICE = #{totalprice}
+			</if>
+			<if test="@Ognl@isNotEmpty(freight)">
+			AND FREIGHT = #{freight}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend1)">
+			AND EXTEND1 = #{extend1}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend2)">
+			AND EXTEND2 = #{extend2}
+			</if>
+			<if test="@Ognl@isNotEmpty(extend3)">
+			AND EXTEND3 = #{extend3}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_ORDER列表 -->
+	<select id="queryOrderPageList" parameterType="hashmap" resultType="order">
+	   select *
+		  from T_FT_ORDER
+		<include refid="queryOrderForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="order">
+		SELECT * FROM T_FT_ORDER
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

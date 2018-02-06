@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.ReviewsDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="reviewsResultMap" type="com.chenkezhao.clientinf.entity.Reviews">
+        <result property="id" column="ID"/>
+        <result property="parentid" column="PARENTID"/>
+        <result property="fruitid" column="FRUITID"/>
+        <result property="userid" column="USERID"/>
+        <result property="content" column="CONTENT"/>
+        <result property="delstate" column="DELSTATE"/>
+        <result property="creatertime" column="CREATERTIME"/>
+        <result property="auditstate" column="AUDITSTATE"/>
+        <result property="auditor" column="AUDITOR"/>
+        <result property="auditorname" column="AUDITORNAME"/>
+        <result property="audittime" column="AUDITTIME"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="reviews">
+		INSERT INTO T_FT_REVIEWS (
+        	PARENTID ,
+        	FRUITID ,
+        	USERID ,
+        	CONTENT ,
+        	DELSTATE ,
+        	CREATERTIME ,
+        	AUDITSTATE ,
+        	AUDITOR ,
+        	AUDITORNAME ,
+        	AUDITTIME 
+		) VALUES (
+        	#{parentid} ,
+        	#{fruitid} ,
+        	#{userid} ,
+        	#{content} ,
+        	#{delstate} ,
+        	#{creatertime} ,
+        	#{auditstate} ,
+        	#{auditor} ,
+        	#{auditorname} ,
+        	#{audittime} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="reviews">
+		 UPDATE T_FT_REVIEWS SET
+	        PARENTID = #{parentid} ,
+	        FRUITID = #{fruitid} ,
+	        USERID = #{userid} ,
+	        CONTENT = #{content} ,
+	        DELSTATE = #{delstate} ,
+	        CREATERTIME = #{creatertime} ,
+	        AUDITSTATE = #{auditstate} ,
+	        AUDITOR = #{auditor} ,
+	        AUDITORNAME = #{auditorname} ,
+	        AUDITTIME = #{audittime} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_REVIEWS WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_REVIEWS列表-查询条件 -->
+	<sql id="queryReviewsForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(parentid)">
+			AND PARENTID = #{parentid}
+			</if>
+			<if test="@Ognl@isNotEmpty(fruitid)">
+			AND FRUITID = #{fruitid}
+			</if>
+			<if test="@Ognl@isNotEmpty(userid)">
+			AND USERID = #{userid}
+			</if>
+			<if test="@Ognl@isNotEmpty(content)">
+			AND CONTENT = #{content}
+			</if>
+			<if test="@Ognl@isNotEmpty(delstate)">
+			AND DELSTATE = #{delstate}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatertime)">
+			AND CREATERTIME = #{creatertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(auditstate)">
+			AND AUDITSTATE = #{auditstate}
+			</if>
+			<if test="@Ognl@isNotEmpty(auditor)">
+			AND AUDITOR = #{auditor}
+			</if>
+			<if test="@Ognl@isNotEmpty(auditorname)">
+			AND AUDITORNAME = #{auditorname}
+			</if>
+			<if test="@Ognl@isNotEmpty(audittime)">
+			AND AUDITTIME = #{audittime}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_REVIEWS列表 -->
+	<select id="queryReviewsPageList" parameterType="hashmap" resultType="reviews">
+	   select *
+		  from T_FT_REVIEWS
+		<include refid="queryReviewsForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="reviews">
+		SELECT * FROM T_FT_REVIEWS
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

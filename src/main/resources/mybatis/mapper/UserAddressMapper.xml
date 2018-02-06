@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.UserAddressDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="userAddressResultMap" type="com.chenkezhao.clientinf.entity.UserAddress">
+        <result property="id" column="ID"/>
+        <result property="userid" column="USERID"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="username" column="USERNAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="postalcode" column="POSTALCODE"/>
+        <result property="provincename" column="PROVINCENAME"/>
+        <result property="cityname" column="CITYNAME"/>
+        <result property="countyname" column="COUNTYNAME"/>
+        <result property="detailinfo" column="DETAILINFO"/>
+        <result property="nationalcode" column="NATIONALCODE"/>
+        <result property="telnumber" column="TELNUMBER"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="userAddress">
+		INSERT INTO T_FT_USER_ADDRESS (
+        	USERID ,
+        	NICKNAME ,
+        	USERNAME ,
+        	EMAIL ,
+        	POSTALCODE ,
+        	PROVINCENAME ,
+        	CITYNAME ,
+        	COUNTYNAME ,
+        	DETAILINFO ,
+        	NATIONALCODE ,
+        	TELNUMBER ,
+        	REMARK 
+		) VALUES (
+        	#{userid} ,
+        	#{nickname} ,
+        	#{username} ,
+        	#{email} ,
+        	#{postalcode} ,
+        	#{provincename} ,
+        	#{cityname} ,
+        	#{countyname} ,
+        	#{detailinfo} ,
+        	#{nationalcode} ,
+        	#{telnumber} ,
+        	#{remark} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="userAddress">
+		 UPDATE T_FT_USER_ADDRESS SET
+	        USERID = #{userid} ,
+	        NICKNAME = #{nickname} ,
+	        USERNAME = #{username} ,
+	        EMAIL = #{email} ,
+	        POSTALCODE = #{postalcode} ,
+	        PROVINCENAME = #{provincename} ,
+	        CITYNAME = #{cityname} ,
+	        COUNTYNAME = #{countyname} ,
+	        DETAILINFO = #{detailinfo} ,
+	        NATIONALCODE = #{nationalcode} ,
+	        TELNUMBER = #{telnumber} ,
+	        REMARK = #{remark} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_USER_ADDRESS WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_USER_ADDRESS列表-查询条件 -->
+	<sql id="queryUserAddressForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(userid)">
+			AND USERID = #{userid}
+			</if>
+			<if test="@Ognl@isNotEmpty(nickname)">
+			AND NICKNAME = #{nickname}
+			</if>
+			<if test="@Ognl@isNotEmpty(username)">
+			AND USERNAME = #{username}
+			</if>
+			<if test="@Ognl@isNotEmpty(email)">
+			AND EMAIL = #{email}
+			</if>
+			<if test="@Ognl@isNotEmpty(postalcode)">
+			AND POSTALCODE = #{postalcode}
+			</if>
+			<if test="@Ognl@isNotEmpty(provincename)">
+			AND PROVINCENAME = #{provincename}
+			</if>
+			<if test="@Ognl@isNotEmpty(cityname)">
+			AND CITYNAME = #{cityname}
+			</if>
+			<if test="@Ognl@isNotEmpty(countyname)">
+			AND COUNTYNAME = #{countyname}
+			</if>
+			<if test="@Ognl@isNotEmpty(detailinfo)">
+			AND DETAILINFO = #{detailinfo}
+			</if>
+			<if test="@Ognl@isNotEmpty(nationalcode)">
+			AND NATIONALCODE = #{nationalcode}
+			</if>
+			<if test="@Ognl@isNotEmpty(telnumber)">
+			AND TELNUMBER = #{telnumber}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_USER_ADDRESS列表 -->
+	<select id="queryUserAddressPageList" parameterType="hashmap" resultType="userAddress">
+	   select *
+		  from T_FT_USER_ADDRESS
+		<include refid="queryUserAddressForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="userAddress">
+		SELECT * FROM T_FT_USER_ADDRESS
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

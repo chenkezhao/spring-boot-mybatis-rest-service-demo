@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.UserInfoDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="userInfoResultMap" type="com.chenkezhao.clientinf.entity.UserInfo">
+        <result property="id" column="ID"/>
+        <result property="openid" column="OPENID"/>
+        <result property="unionid" column="UNIONID"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="avatarurl" column="AVATARURL"/>
+        <result property="gender" column="GENDER"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="isblacklist" column="ISBLACKLIST"/>
+        <result property="telephone" column="TELEPHONE"/>
+        <result property="creatertime" column="CREATERTIME"/>
+        <result property="lastlogintime" column="LASTLOGINTIME"/>
+        <result property="remark" column="REMARK"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="userInfo">
+		INSERT INTO T_FT_USER_INFO (
+        	OPENID ,
+        	UNIONID ,
+        	NICKNAME ,
+        	AVATARURL ,
+        	GENDER ,
+        	ADDRESS ,
+        	ISBLACKLIST ,
+        	TELEPHONE ,
+        	CREATERTIME ,
+        	LASTLOGINTIME ,
+        	REMARK 
+		) VALUES (
+        	#{openid} ,
+        	#{unionid} ,
+        	#{nickname} ,
+        	#{avatarurl} ,
+        	#{gender} ,
+        	#{address} ,
+        	#{isblacklist} ,
+        	#{telephone} ,
+        	#{creatertime} ,
+        	#{lastlogintime} ,
+        	#{remark} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="userInfo">
+		 UPDATE T_FT_USER_INFO SET
+	        OPENID = #{openid} ,
+	        UNIONID = #{unionid} ,
+	        NICKNAME = #{nickname} ,
+	        AVATARURL = #{avatarurl} ,
+	        GENDER = #{gender} ,
+	        ADDRESS = #{address} ,
+	        ISBLACKLIST = #{isblacklist} ,
+	        TELEPHONE = #{telephone} ,
+	        CREATERTIME = #{creatertime} ,
+	        LASTLOGINTIME = #{lastlogintime} ,
+	        REMARK = #{remark} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_USER_INFO WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_USER_INFO列表-查询条件 -->
+	<sql id="queryUserInfoForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(openid)">
+			AND OPENID = #{openid}
+			</if>
+			<if test="@Ognl@isNotEmpty(unionid)">
+			AND UNIONID = #{unionid}
+			</if>
+			<if test="@Ognl@isNotEmpty(nickname)">
+			AND NICKNAME = #{nickname}
+			</if>
+			<if test="@Ognl@isNotEmpty(avatarurl)">
+			AND AVATARURL = #{avatarurl}
+			</if>
+			<if test="@Ognl@isNotEmpty(gender)">
+			AND GENDER = #{gender}
+			</if>
+			<if test="@Ognl@isNotEmpty(address)">
+			AND ADDRESS = #{address}
+			</if>
+			<if test="@Ognl@isNotEmpty(isblacklist)">
+			AND ISBLACKLIST = #{isblacklist}
+			</if>
+			<if test="@Ognl@isNotEmpty(telephone)">
+			AND TELEPHONE = #{telephone}
+			</if>
+			<if test="@Ognl@isNotEmpty(creatertime)">
+			AND CREATERTIME = #{creatertime}
+			</if>
+			<if test="@Ognl@isNotEmpty(lastlogintime)">
+			AND LASTLOGINTIME = #{lastlogintime}
+			</if>
+			<if test="@Ognl@isNotEmpty(remark)">
+			AND REMARK = #{remark}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_USER_INFO列表 -->
+	<select id="queryUserInfoPageList" parameterType="hashmap" resultType="userInfo">
+	   select *
+		  from T_FT_USER_INFO
+		<include refid="queryUserInfoForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="userInfo">
+		SELECT * FROM T_FT_USER_INFO
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>

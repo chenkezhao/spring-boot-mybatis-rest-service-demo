@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.chenkezhao.clientinf.dao.OrderListDao">
+
+	<!--
+	高级查询，一般用不上：http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html
+	一般，别名就够用了：http://www.mybatis.org/mybatis-3/zh/configuration.html#typeAliases
+
+	<resultMap id="orderListResultMap" type="com.chenkezhao.clientinf.entity.OrderList">
+        <result property="id" column="ID"/>
+        <result property="orderid" column="ORDERID"/>
+        <result property="fruitid" column="FRUITID"/>
+	</resultMap>
+	-->
+	<!-- 插入一条角色记录 -->
+	<insert id="insert" parameterType="orderList">
+		INSERT INTO T_FT_ORDER_LIST (
+        	ORDERID ,
+        	FRUITID 
+		) VALUES (
+        	#{orderid} ,
+        	#{fruitid} 
+		 )
+	</insert>
+
+	<!-- 根据主键更新菜单 -->
+	<update id="update" parameterType="orderList">
+		 UPDATE T_FT_ORDER_LIST SET
+	        ORDERID = #{orderid} ,
+	        FRUITID = #{fruitid} 
+        WHERE
+	        ID = #{id} 
+	</update>
+
+	<!-- 删除  -->
+	<delete id="delete">
+		DELETE FROM T_FT_ORDER_LIST WHERE
+        ID = #{id} 
+    </delete>
+
+	<!-- T_FT_ORDER_LIST列表-查询条件 -->
+	<sql id="queryOrderListForManage_where">
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="@Ognl@isNotEmpty(id)">
+			AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderid)">
+			AND ORDERID = #{orderid}
+			</if>
+			<if test="@Ognl@isNotEmpty(fruitid)">
+			AND FRUITID = #{fruitid}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- T_FT_ORDER_LIST列表 -->
+	<select id="queryOrderListPageList" parameterType="hashmap" resultType="orderList">
+	   select *
+		  from T_FT_ORDER_LIST
+		<include refid="queryOrderListForManage_where" />
+	</select>
+
+	<!--根据id查询-->
+	<select id="getById" parameterType="String" resultType="orderList">
+		SELECT * FROM T_FT_ORDER_LIST
+	        WHERE
+		        ID = #{id} 
+
+	</select>
+
+</mapper>
